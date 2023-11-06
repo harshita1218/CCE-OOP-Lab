@@ -1,0 +1,57 @@
+import java.util.Scanner;
+
+class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("Thread created using Runnable interface is running.");
+    }
+}
+
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println("Thread created by inheriting Thread class is running.");
+    }
+}
+
+public class ThreadCreationMenu {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("Thread Creation Menu:");
+            System.out.println("1. Create a Thread using Runnable");
+            System.out.println("2. Create a Thread by inheriting Thread class");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    // Create a thread using Runnable
+                    Runnable runnable = new MyRunnable();
+                    Thread runnableThread = new Thread(runnable);
+                    runnableThread.start();
+                    break;
+
+                case 2:
+                    // Create a thread by inheriting Thread class
+                    Thread thread = new MyThread();
+                    thread.start();
+                    break;
+
+                case 3:
+                    System.out.println("Exiting the program.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        } while (choice != 3);
+
+        scanner.close();
+    }
+}
