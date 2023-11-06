@@ -1,0 +1,44 @@
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("Thread " + Thread.currentThread().getId() + " - Iteration " + i);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println("Thread " + Thread.currentThread().getId() + " was interrupted.");
+                return; // Exit the thread on interruption
+            }
+        }
+    }
+}
+
+public class ThreadPriorityDemo {
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread();
+        MyThread t2 = new MyThread();
+
+        t1.setPriority(Thread.MAX_PRIORITY); // Set the highest priority
+        t2.setPriority(Thread.MIN_PRIORITY); // Set the lowest priority
+
+        t1.start();
+        t2.start();
+
+        try {
+            Thread.sleep(3000); // Sleep for 3 seconds
+        } catch (InterruptedException e) {
+            System.out.println("Main thread was interrupted.");
+        }
+
+        t1.interrupt(); // Interrupt the high-priority thread
+
+        try {
+            t1.join();
+            t2.join();
+        } catch (InterruptedException e) {
+            System.out.println("Main thread was interrupted while waiting for threads to finish.");
+        }
+
+        System.out.println("Main thread has completed.");
+    }
+}
